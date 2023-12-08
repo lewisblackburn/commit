@@ -1,5 +1,6 @@
 import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
+import { getCommitColour } from '../utils/gradient'
 
 interface Props {
   day: {
@@ -16,7 +17,7 @@ export default function Day({ day, dayIndex }: Props) {
       style={{
         width: 30,
         height: 30,
-        backgroundColor: day.isCurrentMonth ? 'lightblue' : 'lightgray',
+        backgroundColor: day.isCurrentMonth ? getCommitColour(2, 10) : getCommitColour(0, -1),
         justifyContent: 'center',
         alignItems: 'center',
         margin: 2,
