@@ -12,7 +12,7 @@ const Calendar: React.FC = () => {
 
   return (
     <View>
-      <Text style={{ color: 'white' }}>{getMonthName(calendarData.month).toLowerCase()}</Text>
+      <Text style={{ color: 'white', margin: 10, fontSize: 25, fontWeight: 'bold' }}>{getMonthName(calendarData.month).toLowerCase()}</Text>
 
       {/* Display day names */}
       <View style={{ flexDirection: 'row' }}>
@@ -26,7 +26,7 @@ const Calendar: React.FC = () => {
               alignItems: 'center',
               margin: 4,
             }}>
-            <Text style={{ color: 'white' }}>{dayName}</Text>
+            <Text style={{ color: 'white' }}>{dayName.toLowerCase()}</Text>
           </View>
         ))}
       </View>

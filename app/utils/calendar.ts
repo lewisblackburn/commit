@@ -63,6 +63,26 @@ export const generateCalendar = (year: number, month: number): CalendarData => {
   return calendar;
 };
 
+export const generateMonthRange = (startYear: number, startMonth: number, endYear: number, endMonth: number): CalendarData[] => {
+  const months: CalendarData[] = [];
+
+  let currentYear = startYear;
+  let currentMonth = startMonth;
+
+  while (currentYear < endYear || (currentYear === endYear && currentMonth <= endMonth)) {
+    months.push(generateCalendar(currentYear, currentMonth));
+
+    if (currentMonth === 12) {
+      currentMonth = 1;
+      currentYear++;
+    } else {
+      currentMonth++;
+    }
+  }
+
+  return months;
+};
+
 // month number to name
 export const getMonthName = (month: number): string => {
   const months = [
