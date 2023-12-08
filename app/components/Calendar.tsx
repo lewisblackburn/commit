@@ -1,9 +1,8 @@
-
-// Your React component file
 import React from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, Dimensions } from 'react-native';
 import { CalendarData, generateCalendar, getMonthName } from '../utils/calendar';
 import Day from './Day';
+import { columnWidth } from '../utils/constants';
 
 const Calendar: React.FC = () => {
   const currentYear = new Date().getFullYear();
@@ -13,14 +12,36 @@ const Calendar: React.FC = () => {
 
   return (
     <View>
-      <Text>{getMonthName(calendarData.month).toLowerCase()}</Text>
-      {calendarData.weeks.map((week, weekIndex) => (
-        <View key={weekIndex} style={{ flexDirection: 'row' }}>
-          {week.map((day, dayIndex) => (
-            <Day key={dayIndex} day={day} dayIndex={dayIndex} />
-          ))}
-        </View>
-      ))}
+      <Text style={{ color: 'white' }}>{getMonthName(calendarData.month).toLowerCase()}</Text>
+
+      {/* Display day names */}
+      <View style={{ flexDirection: 'row' }}>
+        {['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'].map((dayName, index) => (
+          <View
+            key={index}
+            style={{
+              width: columnWidth,
+              height: columnWidth,
+              justifyContent: 'center',
+              alignItems: 'center',
+              margin: 4,
+            }}>
+            <Text style={{ color: 'white' }}>{dayName}</Text>
+          </View>
+        ))}
+      </View>
+
+      {/* Display calendar grid in reverse order */}
+      {calendarData.weeks
+        .slice() // Create a copy of the weeks array
+        .reverse() // Reverse the order of the array
+        .map((week, weekIndex) => (
+          <View key={weekIndex} style={{ flexDirection: 'row' }}>
+            {week.map((day, dayIndex) => (
+              <Day key={dayIndex} day={day} dayIndex={dayIndex} />
+            ))}
+          </View>
+        ))}
     </View>
   );
 };

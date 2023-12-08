@@ -1,6 +1,7 @@
 import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 import { getCommitColour } from '../utils/gradient'
+import { columnWidth } from '../utils/constants'
 
 interface Props {
   day: {
@@ -15,11 +16,10 @@ export default function Day({ day, dayIndex }: Props) {
     <View
       key={dayIndex}
       style={{
-        // work out width based on screen width
-        // 7 days in a week, 4px margin on each side
-        // 4 * 7 * 2 = 56
-        width: (375 - 56) / 7,
-        height: (375 - 56) / 7,
+        // don't display days in the future
+        display: day.day > new Date().getDate() ? 'none' : 'flex',
+        width: columnWidth,
+        height: columnWidth,
         backgroundColor: day.isCurrentMonth ? getCommitColour(2, 10) : getCommitColour(0, -1),
         borderRadius: 10,
         borderWidth: 1,
@@ -29,7 +29,7 @@ export default function Day({ day, dayIndex }: Props) {
         alignItems: 'center',
         margin: 4,
       }}>
-      {/* <Text>{day.day > 0 ? day.day : ''}</Text> */}
+      <Text>{day.day > 0 ? day.day : ''}</Text>
     </View>
   )
 }

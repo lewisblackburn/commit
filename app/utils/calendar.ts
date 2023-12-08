@@ -20,8 +20,10 @@ export const generateCalendar = (year: number, month: number): CalendarData => {
   const firstDay = new Date(year, month - 1, 1);
   const lastDay = new Date(year, month, 0);
 
-  const startDay = firstDay.getDay();
+  const startDay = (firstDay.getDay() + 6) % 7; // Adjusted to make Monday the first day (0-indexed, Sunday=0)
   const endDay = lastDay.getDate();
+
+  const today = new Date(); // Get the current date
 
   const calendar: CalendarData = {
     year,
@@ -32,13 +34,19 @@ export const generateCalendar = (year: number, month: number): CalendarData => {
   let currentWeek: CalendarWeek = [];
 
   // Add placeholders for days from the previous month before the first day of the current month
-  for (let i = 0; i < startDay; i++) {
+  for (let i = startDay; i > 0; i--) {
     currentWeek.push({ day: 0, isCurrentMonth: false });
   }
 
   for (let day = 1; day <= endDay; day++) {
+    // Create a date object for the current day
+    const currentDate = new Date(year, month - 1, day);
+
     // Add the current day to the current week with the indication of whether it's in the current month
-    currentWeek.push({ day, isCurrentMonth: true });
+    currentWeek.push({
+      day,
+      isCurrentMonth: currentDate <= today, // Check if the day has already happened
+    });
 
     // If a full week is complete, add it to the calendar and reset the current week
     if (currentWeek.length === DAYS_IN_WEEK) {
@@ -73,4 +81,4 @@ export const getMonthName = (month: number): string => {
   ];
 
   return months[month - 1];
-}
+};
